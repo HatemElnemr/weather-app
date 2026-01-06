@@ -198,8 +198,6 @@ function retrySearch() {
   window.location.reload();
 }
 
-
-
 const options = {
   enableHighAccuracy: true,
   timeout: 5000,
@@ -219,13 +217,14 @@ function error(err) {
 function buildUnitParams(units) {
   const params = [];
 
-  if (units.windSpeed === 'mph') params.push('wind_speed_unit=mph');
+  if (units.windSpeed === "mph") params.push("wind_speed_unit=mph");
 
-  if (units.temperature === 'fahrenheit') params.push('temperature_unit=fahrenheit');
+  if (units.temperature === "fahrenheit")
+    params.push("temperature_unit=fahrenheit");
 
-  if (units.precipitation === 'inch') params.push('precipitation_unit=inch');
+  if (units.precipitation === "inch") params.push("precipitation_unit=inch");
 
-  return params.join('&');
+  return params.join("&");
 }
 
 async function fetchWeatherData(latitude, longitude) {
@@ -233,8 +232,12 @@ async function fetchWeatherData(latitude, longitude) {
 
   try {
     const unitParams = buildUnitParams(global.units);
-    const url = `${global.api.apiUrl}latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&current=temperature_2m,${global.api.apiEnd}${unitParams ? `&${unitParams}` : ""}`;
-    console.log('Fetching weather URL:', url);
+    const url = `${
+      global.api.apiUrl
+    }latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&current=temperature_2m,${
+      global.api.apiEnd
+    }${unitParams ? `&${unitParams}` : ""}`;
+    console.log("Fetching weather URL:", url);
     const response = await fetch(url);
     checkServerError(response.status);
 
@@ -251,17 +254,17 @@ async function fetchWeatherData(latitude, longitude) {
 function getCanonicalUnit(type, text) {
   if (!text) return null;
   const t = text.toLowerCase();
-  if (type === 'temperature') {
-    if (t.includes('f') || t.includes('fahrenheit')) return 'fahrenheit';
-    return 'celsius';
+  if (type === "temperature") {
+    if (t.includes("f") || t.includes("fahrenheit")) return "fahrenheit";
+    return "celsius";
   }
-  if (type === 'windSpeed') {
-    if (t.includes('mph')) return 'mph';
-    return 'km/h';
+  if (type === "windSpeed") {
+    if (t.includes("mph")) return "mph";
+    return "km/h";
   }
-  if (type === 'precipitation') {
-    if (t.includes('inch') || t.includes('in')) return 'inch';
-    return 'millimeters';
+  if (type === "precipitation") {
+    if (t.includes("inch") || t.includes("in")) return "inch";
+    return "millimeters";
   }
   return text;
 }
@@ -290,19 +293,18 @@ async function intializeWithLocation(latitude, longitude) {
   updateWeatherUI(weatherData, cityData);
 }
 
-
 async function getWeatherByCity(cityName) {
   const cityData = await getCityInfo(cityName);
 
   const weatherData = await fetchWeatherData(
     cityData.latitude,
     cityData.longitude
-  )
+  );
 
-  return {weatherData, cityData};
+  return { weatherData, cityData };
 }
-async function getCityInfo (city) {
-  const response = await fetch( 
+async function getCityInfo(city) {
+  const response = await fetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
   );
 
@@ -310,7 +312,7 @@ async function getCityInfo (city) {
   const geoData = await response.json();
   if (!geoData.results || geoData.results.length === 0) {
     showNotFound();
-    throw new Error("City not found")
+    throw new Error("City not found");
   }
 
   const place = geoData.results[0];
@@ -324,142 +326,150 @@ async function getWeatherInformation(e) {
 
   const input = document.querySelector("input").value;
 
-  const {weatherData, cityData} = await getWeatherByCity(input);
+  const { weatherData, cityData } = await getWeatherByCity(input);
 
   global.lastCity = input;
   global.currentLocation = null;
 
-  cityInput.value = ""
+  cityInput.value = "";
   hideCityDropdown();
-  updateWeatherUI(weatherData, cityData)
+  updateWeatherUI(weatherData, cityData);
 }
 
 async function refetchLastCity() {
-  if (!global.lastCity && ! global.currentLocation) return;
+  if (!global.lastCity && !global.currentLocation) return;
 
   let weatherData, cityData;
 
   if (global.lastCity) {
-    const result = await getWeatherByCity(global.lastCity)
+    const result = await getWeatherByCity(global.lastCity);
     weatherData = result.weatherData;
     cityData = result.cityData;
   } else if (global.currentLocation) {
-    weatherData = await fetchWeatherData (
+    weatherData = await fetchWeatherData(
       global.currentLocation.latitude,
       global.currentLocation.longitude
-    )
+    );
     cityData = {
       name: " Current Location",
       country: "",
-    }
+    };
   }
-  updateWeatherUI(weatherData, cityData)
+  updateWeatherUI(weatherData, cityData);
 }
 
 function changeTemperatureUnits(e) {
-  const item = e.target.closest('.units-dropdown-item');
+  const item = e.target.closest(".units-dropdown-item");
   if (!item) return;
 
-  const items = dropdownTemperature.querySelectorAll('.units-dropdown-item');
+  const items = dropdownTemperature.querySelectorAll(".units-dropdown-item");
   items.forEach((unit) => {
-    unit.classList.remove('checked');
-    const ch = unit.querySelector('.icon-checked');
-    if (ch) ch.classList.add('hidden');
+    unit.classList.remove("checked");
+    const ch = unit.querySelector(".icon-checked");
+    if (ch) ch.classList.add("hidden");
   });
 
-  item.classList.add('checked');
-  const ch = item.querySelector('.icon-checked');
-  if (ch) ch.classList.remove('hidden');
+  item.classList.add("checked");
+  const ch = item.querySelector(".icon-checked");
+  if (ch) ch.classList.remove("hidden");
 
-  const canonical = item.dataset.unit || getCanonicalUnit('temperature', item.textContent);
+  const canonical =
+    item.dataset.unit || getCanonicalUnit("temperature", item.textContent);
   global.units.temperature = canonical;
 
   refetchLastCity();
 }
 function changeWindSpeedUnits(e) {
-  const item = e.target.closest('.units-dropdown-item');
+  const item = e.target.closest(".units-dropdown-item");
   if (!item) return;
 
-  const items = dropdownWindSpeed.querySelectorAll('.units-dropdown-item');
+  const items = dropdownWindSpeed.querySelectorAll(".units-dropdown-item");
   items.forEach((unit) => {
-    unit.classList.remove('checked');
-    const ch = unit.querySelector('.icon-checked');
-    if (ch) ch.classList.add('hidden');
+    unit.classList.remove("checked");
+    const ch = unit.querySelector(".icon-checked");
+    if (ch) ch.classList.add("hidden");
   });
 
-  item.classList.add('checked');
-  const ch = item.querySelector('.icon-checked');
-  if (ch) ch.classList.remove('hidden');
+  item.classList.add("checked");
+  const ch = item.querySelector(".icon-checked");
+  if (ch) ch.classList.remove("hidden");
 
-  const canonical = item.dataset.unit || getCanonicalUnit('windSpeed', item.textContent);
+  const canonical =
+    item.dataset.unit || getCanonicalUnit("windSpeed", item.textContent);
   global.units.windSpeed = canonical;
 
   refetchLastCity();
 }
 function changePrecipitationUnits(e) {
-  const item = e.target.closest('.units-dropdown-item');
+  const item = e.target.closest(".units-dropdown-item");
   if (!item) return;
 
-  const items = dropdownPrecipitation.querySelectorAll('.units-dropdown-item');
+  const items = dropdownPrecipitation.querySelectorAll(".units-dropdown-item");
   items.forEach((unit) => {
-    unit.classList.remove('checked');
-    const ch = unit.querySelector('.icon-checked');
-    if (ch) ch.classList.add('hidden');
+    unit.classList.remove("checked");
+    const ch = unit.querySelector(".icon-checked");
+    if (ch) ch.classList.add("hidden");
   });
 
-  item.classList.add('checked');
-  const ch = item.querySelector('.icon-checked');
-  if (ch) ch.classList.remove('hidden');
+  item.classList.add("checked");
+  const ch = item.querySelector(".icon-checked");
+  if (ch) ch.classList.remove("hidden");
 
-  const canonical = item.dataset.unit || getCanonicalUnit('precipitation', item.textContent);
+  const canonical =
+    item.dataset.unit || getCanonicalUnit("precipitation", item.textContent);
   global.units.precipitation = canonical;
 
   refetchLastCity();
 }
 
-function switchUnits () {
-
+function switchUnits() {
   const targetSystem =
-		global.currentSystem === 'metric' ? 'imperial' : 'metric';
+    global.currentSystem === "metric" ? "imperial" : "metric";
 
-	if (targetSystem === 'imperial') {
-		switchUnitsBtn.textContent = `Switch to Metric`;
-	} else {
-		switchUnitsBtn.textContent = `Switch to Imperial`;
-	}
+  if (targetSystem === "imperial") {
+    switchUnitsBtn.textContent = `Switch to Metric`;
+  } else {
+    switchUnitsBtn.textContent = `Switch to Imperial`;
+  }
 
-	const tempBtns = document.querySelectorAll('.unit-temperature');
-	tempBtns.forEach((btn) => {
-		const btnText = btn.textContent.trim();
-		if (btnText.includes(unitSystem[targetSystem].temperature)) btn.click();
-	});
+  // Set canonical unit tokens immediately so subsequent fetches include them
+  if (targetSystem === "imperial") {
+    global.units.temperature = "fahrenheit";
+    global.units.windSpeed = "mph";
+    global.units.precipitation = "inch";
+  } else {
+    global.units.temperature = "celsius";
+    global.units.windSpeed = "km/h";
+    global.units.precipitation = "millimeters";
+  }
 
-	const windSpeedBtns = document.querySelectorAll('.unit-wind-speed');
-	windSpeedBtns.forEach((btn) => {
-		const btnText = btn.textContent.trim();
-		if (btnText.includes(unitSystem[targetSystem].windSpeed)) btn.click();
-	});
+  // Update dropdown UI checked state if present
+  const updateChecked = (container, type) => {
+    if (!container) return;
+    const items = container.querySelectorAll(".units-dropdown-item");
+    items.forEach((item) => {
+      const canonical =
+        item.dataset.unit || getCanonicalUnit(type, item.textContent);
+      const ch = item.querySelector(".icon-checked");
+      if (canonical === global.units[type]) {
+        item.classList.add("checked");
+        if (ch) ch.classList.remove("hidden");
+      } else {
+        item.classList.remove("checked");
+        if (ch) ch.classList.add("hidden");
+      }
+    });
+  };
 
-	const precipitationBtns = document.querySelectorAll('.unit-precipitation');
-	precipitationBtns.forEach((btn) => {
-		const btnText = btn.textContent.trim();
-		if (btnText.includes(unitSystem[targetSystem].precipitation)) btn.click();
-	});
+  updateChecked(dropdownTemperature, "temperature");
+  updateChecked(dropdownWindSpeed, "windSpeed");
+  updateChecked(dropdownPrecipitation, "precipitation");
 
-	global.currentSystem = targetSystem;
+  global.currentSystem = targetSystem;
+
+  // Fetch updated data with new units
+  refetchLastCity();
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 function iconSelector(weatherCode) {
   switch (weatherCode) {
@@ -490,7 +500,7 @@ function mainForecastInformation(weatherData, cityData) {
   )} \u00B0`;
   temperatureIcon.src = iconSelector(weatherData.current.weather_code);
   locationText.textContent = `${cityData.name}, ${cityData.country}`;
-  console.log(weatherData.current)
+  console.log(weatherData.current);
   const today = new Date();
   const options = {
     weekday: "long",
@@ -619,7 +629,7 @@ function hourlyForecastInformation(weatherData) {
   const today = new Date();
   const currentDay = today.toLocaleDateString("en-US", { weekday: "long" });
 
-  const iconDropdownSrc = "assets/images/icon-dropdown.svg"
+  const iconDropdownSrc = "assets/images/icon-dropdown.svg";
   container.innerHTML = `
   <div class="hourly-forecast-header">
               <h3 class="hourly-forecast-title">Hourly Forecast</h3>
@@ -766,10 +776,10 @@ function updateWeatherUI(weatherData, cityData) {
 function init() {
   dropdownWindSpeed.addEventListener("click", changeWindSpeedUnits);
   dropdownPrecipitation.addEventListener("click", changePrecipitationUnits);
-  dropdownTemperature.addEventListener("click", changeTemperatureUnits)
+  dropdownTemperature.addEventListener("click", changeTemperatureUnits);
   searchForm.addEventListener("submit", getWeatherInformation);
-  switchUnitsBtn.addEventListener("click", switchUnits)
-  retryBtn.addEventListener("click", retrySearch)
+  switchUnitsBtn.addEventListener("click", switchUnits);
+  retryBtn.addEventListener("click", retrySearch);
   cityInput.addEventListener("input", handleCitySearch);
   window.addEventListener("click", closeDropdowns);
   navigator.geolocation.getCurrentPosition(success, error, options);
