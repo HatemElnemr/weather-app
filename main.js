@@ -626,7 +626,7 @@ function hourlyForecastInformation(weatherData) {
                 <button id="day-selector-btn" class="day-selector-button">
                   <span class="selected-day"> ${currentDay} </span>
                   <img
-                    src="assets/images/icon-dropdown.svg"
+                    src="./assets/images/icon-dropdown.svg"
                     alt="dropdown"
                     class="hourly-dropdown-icon"
                   />
