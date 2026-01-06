@@ -464,23 +464,23 @@ function switchUnits () {
 function iconSelector(weatherCode) {
   switch (weatherCode) {
     case (0, 1):
-      return "./assets/images/icon-sunny.webp";
+      return "assets/images/icon-sunny.webp";
     case 2:
-      return "./assets/images/icon-partly-cloudy.webp";
+      return "assets/images/icon-partly-cloudy.webp";
     case 3:
-      return "./assets/images/icon-overcast.webp";
+      return "assets/images/icon-overcast.webp";
     case (45, 48):
-      return "./assets/images/icon-fog.webp";
+      return "assets/images/icon-fog.webp";
     case (51, 53, 55, 56, 57):
-      return "./assets/images/icon-drizzle.webp";
+      return "assets/images/icon-drizzle.webp";
     case (61, 63, 65, 67, 80, 81, 82):
-      return "./assets/images/icon-rain.webp";
+      return "assets/images/icon-rain.webp";
     case (71, 73, 75, 77, 85, 86):
-      return "./assets/images/icon-snow.webp";
+      return "assets/images/icon-snow.webp";
     case (95, 96, 99):
-      return "./assets/images/icon-storm.webp";
+      return "assets/images/icon-storm.webp";
     default:
-      return "./assets/images/icon-sunny.webp";
+      return "assets/images/icon-sunny.webp";
   }
 }
 
