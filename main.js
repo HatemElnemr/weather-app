@@ -350,10 +350,10 @@ async function refetchLastCity() {
       global.currentLocation.latitude,
       global.currentLocation.longitude
     );
-    cityData = {
-      name: " Current Location",
-      country: "",
-    };
+    cityData = await getCityFromCoordinates(
+      global.currentLocation.latitude,
+      global.currentLocation.longitude,
+    );
   }
   updateWeatherUI(weatherData, cityData);
 }
