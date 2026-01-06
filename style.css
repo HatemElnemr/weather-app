@@ -729,8 +729,8 @@ main .right-content-container .hourly-weather-card {
   border: 1px solid var(--color-panel-border);
   background-color: var(--color-panel-bg-dark-hover);
   min-height: 49.6px;
+
   max-height: 61.6px;
-  height: 100%;
 }
 main .right-content-container .hourly-weather-card .hourly-forecast-time {
   display: flex;
