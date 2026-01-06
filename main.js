@@ -619,6 +619,7 @@ function hourlyForecastInformation(weatherData) {
   const today = new Date();
   const currentDay = today.toLocaleDateString("en-US", { weekday: "long" });
 
+  const iconDropdownSrc = "assets/images/icon-dropdown.svg"
   container.innerHTML = `
   <div class="hourly-forecast-header">
               <h3 class="hourly-forecast-title">Hourly Forecast</h3>
@@ -626,7 +627,7 @@ function hourlyForecastInformation(weatherData) {
                 <button id="day-selector-btn" class="day-selector-button">
                   <span class="selected-day"> ${currentDay} </span>
                   <img
-                    src="./assets/images/icon-dropdown.svg"
+                    src="${iconDropdownSrc}"
                     alt="dropdown"
                     class="hourly-dropdown-icon"
                   />
