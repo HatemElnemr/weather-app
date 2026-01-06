@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="logo">
+          <a href="#">
+            <img src="/assets/images/logo.svg" alt="Weather Now" />
+          </a>
+        </div>
+        <div class="dropdown">
+          <button id="units-dropdown-btn" class="dropdown-button">
+            <img src="/assets/images/icon-units.svg" alt="" />
+            <span>Units</span>
+            <img
+              src="/assets/images/icon-dropdown.svg"
+              alt=""
+              class="icon-dropdown"
+            />
+          </button>
+          <div id="units-dropdown" class="units-dropdown-content">
+            <a href="#" class="units-dropdown-item switch-units"
+              >Switch to Imperial</a
+            >
+            <div class="units-dropdown-container">
+              <span class="unit-option">Temperature</span>
+              <div class="unit-options-container temperature">
+                <a
+                  href="#"
+                  class="units-dropdown-item checked unit-temperature"
+                >
+                  <span> Celsius (&deg;C) </span>
+                  <img
+                    src="/assets/images/icon-checkmark.svg"
+                    alt="Checked"
+                    class="icon-checked"
+                  />
+                </a>
+                <a href="#" class="units-dropdown-item unit-temperature">
+                  <span> Fehrenheit (&deg;F) </span>
+                  <img
+                    src="/assets/images/icon-checkmark.svg"
+                    alt="Checked"
+                    class="icon-checked hidden"
+                  />
+                </a>
+              </div>
+            </div>
+            <hr />
+            <div class="units-dropdown-container">
+              <span class="unit-option">Wind Speed</span>
+              <div class="unit-options-container wind-speed">
+                <a href="#" class="units-dropdown-item checked unit-wind-speed">
+                  <span> km/h </span>
+                  <img
+                    src="/assets/images/icon-checkmark.svg"
+                    alt="Checked"
+                    class="icon-checked"
+                  />
+                </a>
+                <a href="#" class="units-dropdown-item unit-wind-speed">
+                  <span> mph </span>
+                  <img
+                    src="/assets/images/icon-checkmark.svg"
+                    alt="Checked"
+                    class="icon-checked hidden"
+                  />
+                </a>
+              </div>
+            </div>
+            <hr />
+            <div class="units-dropdown-container">
+              <span class="unit-option">Precipitation</span>
+              <div class="unit-options-container precipitation">
+                <a
+                  href="#"
+                  class="units-dropdown-item checked unit-precipitation"
+                >
+                  <span> Millimeters (mm) </span>
+                  <img
+                    src="/assets/images/icon-checkmark.svg"
+                    alt="Checked"
+                    class="icon-checked"
+                  />
+                </a>
+                <a href="#" class="units-dropdown-item unit-precipitation">
+                  <span> Inches (in) </span>
+                  <img
+                    src="/assets/images/icon-checkmark.svg"
+                    alt="Checked"
+                    class="icon-checked hidden"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <h1 class="title">How's the sky looking today?</h1>
+      <main>
+        <form class="search-form">
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search for a place..."
+              id="citySearch"
+              autocomplete="off"
+            />
+            <img
+              src="/assets/images/icon-search.svg"
+              alt="Search"
+              class="search-icon"
+            />
+            <div id="cityDropdown" class="city-dropdown hidden"></div>
+          </div>
+          <button id="searchBtn" type="submit" class="search-button">
+            Search
+          </button>
+        </form>
+        <div class="search-not-found hidden">
+          <h2>No search result found</h2>
+        </div>
+        <div class="search-server-error hidden">
+          <img
+            src="/assets/images/icon-error.svg"
+            alt="Error"
+            class="error-icon"
+          />
+          <h2 class="error-title">Something went wrong</h2>
+          <p class="error-message">
+            We couldn't connect to the server (API error). Please try again in a
+            few moments
+          </p>
+          <button class="retry-button">
+            <img
+              src="/assets/images/icon-retry.svg"
+              alt="Retry"
+              class="retry-icon"
+            />
+            Retry
+          </button>
+        </div>
+        <div class="content-container">
+          <div class="left-content-container">
+            <div class="weather-info-container">
+              <div class="current-weather">
+                <div class="loading-container hidden">
+                  <span class="loader"></span>
+                  <span class="loading-text">Loading...</span>
+                </div>
+                <div class="location-info">
+                  <div class="location-text"></div>
+                  <div class="date-text"></div>
+                </div>
+                <div class="temperature-container">
+                  <img
+                    src="/assets/images/icon-sunny.webp"
+                    alt="weather icon"
+                    class="temperature-icon"
+                  />
+                  <span class="temperature-text">20&deg;</span>
+                </div>
+              </div>
+              <div class="weather-details">
+                <div class="detail">
+                  <div class="detail-title">Feels like</div>
+                  <div class="detail-text feels-like">&mdash;</div>
+                </div>
+                <div class="detail">
+                  <div class="detail-title">Humidity</div>
+                  <div class="detail-text humidity">&mdash;</div>
+                </div>
+                <div class="detail">
+                  <div class="detail-title">Wind</div>
+                  <div class="detail-text wind">&mdash;</div>
+                </div>
+                <div class="detail">
+                  <div class="detail-title">Precipitation</div>
+                  <div class="detail-text precipitation">&mdash;</div>
+                </div>
+              </div>
+            </div>
+            <div class="daily-forecast-container">
+              <h3 class="daily-forecast-title">Daily Forecast</h3>
+              <div class="daily-forecast">
+                <div class="daily-forecast-item"></div>
+                <div class="daily-forecast-item"></div>
+                <div class="daily-forecast-item"></div>
+                <div class="daily-forecast-item"></div>
+                <div class="daily-forecast-item"></div>
+                <div class="daily-forecast-item"></div>
+                <div class="daily-forecast-item"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="right-content-container">
+            <div class="hourly-forecast-header">
+              <h3 class="hourly-forecast-title">Hourly Forecast</h3>
+              <div class="day-selector">
+                <button id="day-selector-btn" class="day-selector-button">
+                  <span class="selected-day"> - </span>
+                  <img
+                    src="/assets/images/icon-dropdown.svg"
+                    alt="dropdown"
+                    class="hourly-dropdown-icon"
+                  />
+                </button>
+                <div
+                  id="day-selector-dropdown"
+                  class="day-selector-dropdown hidden"
+                >
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
