@@ -38,9 +38,9 @@
 }
 
 body {
-  src: url("/assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf");
-  src: url("/assets//fonts/DM_Sans/DMSans-VariableFont_opsz\,wght.ttf");
-  src: url("/assets//fonts/DM_Sans/DMSans-Italic-VariableFont_opsz\,wght.ttf");
+  src: url("./assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf");
+  src: url("./assets//fonts/DM_Sans/DMSans-VariableFont_opsz\,wght.ttf");
+  src: url("./assets//fonts/DM_Sans/DMSans-Italic-VariableFont_opsz\,wght.ttf");
   font-family: "DM Sans", sans-serif;
   color: var(--color-text-light);
   font-weight: 500;
@@ -379,7 +379,7 @@ main
   justify-content: space-between;
   padding: 80px 24px;
   border-radius: 20px;
-  background-image: url(/assets/images/bg-today-large.svg);
+  background-image: url("./assets/images/bg-today-large.svg");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -1235,7 +1235,7 @@ main .right-content-container .hourly-weather-card .hourly-weather-temperature {
     flex-direction: column;
     gap: 12.8px;
     padding: 64px 19.2px;
-    background-image: url(/assets/images/bg-today-small.svg);
+    background-image: url("./assets/images/bg-today-small.svg");
   }
   main
     .content-container
